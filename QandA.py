@@ -91,3 +91,67 @@ if questions:
 
     else:
         st.markdown(f"<span style='color:red'>No Context</span>", unsafe_allow_html=True)
+
+for message in st.session_state.chat_history:
+    role_class = 'assistant' if message['role'] == 'assistant' else 'user'
+    icon_url = "./Howden-Pride-Logo_PNG-2024_1.png"  # Adjust this path as needed
+    with st.chat_message(message['role']):
+        st.markdown(f"<div class='stChatMessage {role_class}'>{message['text']}</div>", unsafe_allow_html=True)
+
+# CSS for custom styling
+st.markdown(
+    f"""
+    <style>
+    .sidebar .sidebar-content {{
+        background-color: #2E2E2E;
+        color: white;
+    }}
+    .stButton>button {{
+        width: 100%;
+        border-radius: 15px;
+        background-color: #007BFF;
+        color: white;
+        font-size: 14px;
+        padding: 8px;
+    }}
+    .stButton>button:hover {{
+        background-color: #0056b3;
+        color: white;
+    }}
+    .stTextInput>div>div>input {{
+        font-size: 18px;
+        border-radius: 15px;
+        padding: 10px;
+    }}
+    .stChatMessage {{
+        border-radius: 15px;
+        padding: 10px;
+        margin: 5px 0;
+    }}
+    .assistant {{
+        background-color: #F8F9FA;
+        display: flex;
+        align-items: center;
+    }}
+    .user {{
+        background-color: #DCF8C6;
+        display: flex;
+        align-items: center;
+    }}
+    .assistant:before, .user:before {{
+        content: url({icon_url});
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+    }}
+    .highlight {{
+        color: #FFDA33;
+    }}
+    .error {{
+        color: red;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
