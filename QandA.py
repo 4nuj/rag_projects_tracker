@@ -45,9 +45,11 @@ st.markdown(
     }
     .assistant {
         background-color: #F8F9FA;
+        color: black;
     }
     .user {
         background-color: #E8E8E8;  /* Changed background color */
+        color: black;
     }
     .highlight {
         color: #FFDA33;
