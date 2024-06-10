@@ -114,6 +114,9 @@ if st.session_state.selected_document:
         if st.session_state.selected_workflow:
             query = f"Show me the {', '.join(st.session_state.selected_workflow).lower()} for {st.session_state.selected_city} projects."
             st.session_state.query = query
+            # Reset the selected document and workflow
+            st.session_state.selected_document = None
+            st.session_state.selected_workflow = []
 
 # Add a text input for queries
 questions = st.text_input('Enter your questions here...')
