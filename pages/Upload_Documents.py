@@ -3,7 +3,7 @@ import datetime
 import streamlit as st
 
 file_name = ''
-s3_client = boto3.client('s3', region_name='us-east-1')
+s3_client = boto3.client('s3', region_name='eu-west-3')
 
 def process_file(document):
     name = document.name.split('.')[0]
@@ -14,7 +14,7 @@ def process_file(document):
     return file_name
 
 def upload_file(file_name, renamed_file_name):
-    bucket_name = 'knowledgebasesource'
+    bucket_name = 'projectstracker'
     try:
         # Upload file to an S3 object from the specified local path
         s3_client.upload_file(file_name, bucket_name, renamed_file_name)
@@ -28,8 +28,6 @@ document = st.file_uploader("Upload Document", type=["pdf"])
 if document:
     with open(document.name, 'wb') as f:
             f.write(document.getbuffer())
-            
+
     modifed_file_name = process_file(document)
     upload_file(document.name, modifed_file_name)
-
-
