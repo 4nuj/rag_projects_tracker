@@ -51,6 +51,22 @@ for doc in documents:
     st.sidebar.write(f"{doc['company']} - {doc['city']}")
 
 questions = st.chat_input('Enter your questions here...')
+
+
+# Sample queries
+sample_queries = [
+    "Who was the architect on Berlin project?",
+    "What technologies were used in Mumbai project?",
+    "What were the key dates for Tokyo project?"
+]
+
+st.markdown("### Sample Queries")
+for query in sample_queries:
+    if st.button(query):
+        questions = query
+        st.session_state.query_submitted = True
+
+
 if questions:
     with st.chat_message('user'):
         st.markdown(questions)
