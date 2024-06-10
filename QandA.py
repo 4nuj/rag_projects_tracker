@@ -3,6 +3,7 @@ import streamlit as st
 
 # Add the logo image
 st.image("./Howden-Pride-Logo_PNG-2024_1.png", width=300)  # Adjust the width as needed
+icon_url = "./Howden-Pride-Logo_PNG-2024_1.png"  # Adjust this path as needed
 
 st.subheader('M & A Projects Tracker', divider='rainbow')
 
@@ -94,7 +95,7 @@ if questions:
 
 for message in st.session_state.chat_history:
     role_class = 'assistant' if message['role'] == 'assistant' else 'user'
-    icon_url = "./Howden-Pride-Logo_PNG-2024_1.png"  # Adjust this path as needed
+
     with st.chat_message(message['role']):
         st.markdown(f"<div class='stChatMessage {role_class}'>{message['text']}</div>", unsafe_allow_html=True)
 
