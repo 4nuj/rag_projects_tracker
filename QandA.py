@@ -110,6 +110,7 @@ if st.session_state.selected_document:
     selected_workflow_options = st.sidebar.multiselect("Select Workflow Options", workflow_options)
     st.session_state.selected_workflow = selected_workflow_options
 
+    st.sidebar.markdown("<br>", unsafe_allow_html=True)  # Add some space before the button
     if st.sidebar.button("Submit"):
         if st.session_state.selected_workflow:
             query = f"Show me the {', '.join(st.session_state.selected_workflow).lower()} for {st.session_state.selected_city} projects."
@@ -127,6 +128,8 @@ if questions:
 
 if 'query' in st.session_state and st.session_state.query_submitted:
     questions = st.session_state.query
+    st.session_state.query_submitted = False  # Reset before processing to avoid duplication
+
     with st.chat_message('user'):
         st.markdown(questions)
     st.session_state.chat_history.append({"role": 'user', "text": questions})
@@ -156,9 +159,6 @@ if 'query' in st.session_state and st.session_state.query_submitted:
 
     else:
         st.markdown(f"<span class='error'>No Context</span>", unsafe_allow_html=True)
-
-    # Reset query submitted state
-    st.session_state.query_submitted = False
 
 for message in st.session_state.chat_history:
     role_class = 'assistant' if message['role'] == 'assistant' else 'user'
