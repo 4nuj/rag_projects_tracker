@@ -129,7 +129,7 @@ if st.session_state.selected_document:
 
 # Add a text input for queries
 questions = st.text_input('Enter your questions here...')
-if questions and not st.session_state.query_submitted:
+if questions:
     st.session_state.query = questions
     st.session_state.query_submitted = True
 
