@@ -31,18 +31,18 @@ def list_s3_documents(bucket_name):
     if 'Contents' in response:
         for obj in response['Contents']:
             key = obj['Key']
-            if key.endswith('.pdf'):  # Assuming documents are PDF files
+            if key.endswith('.pdf'):
                 parts = key.split('_')
                 if len(parts) >= 2:
                     company_name = parts[0]
-                    city = parts[1]
+                    city = parts[1].replace('.pdf', '')
                     documents.append({'company': company_name, 'city': city, 'key': key})
     return documents
 
 bucket_name = 'projectstracker'
 documents = list_s3_documents(bucket_name)
 
-st.sidebar.title("Project Documents")
+st.sidebar.title("Project List")
 for doc in documents:
     if st.sidebar.button(f"{doc['company']} - {doc['city']}"):
         st.session_state.selected_document = doc['key']
