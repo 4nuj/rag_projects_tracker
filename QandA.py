@@ -137,9 +137,9 @@ if 'query' in st.session_state and st.session_state.query_submitted:
     questions = st.session_state.query
     st.session_state.query_submitted = False  # Reset before processing to avoid duplication
 
-    # Append to chat history only if it hasn't been appended yet
-    if not any(message['text'] == questions for message in st.session_state.chat_history):
-        st.session_state.chat_history.append({"role": 'user', "text": questions})
+    with st.chat_message('user'):
+        st.markdown(questions)
+    st.session_state.chat_history.append({"role": 'user', "text": questions})
 
     response = bedrock_client.retrieve_and_generate(
         input={'text': questions},
@@ -153,7 +153,8 @@ if 'query' in st.session_state and st.session_state.query_submitted:
 
     answer = response['output']['text']
 
-    # Append assistant's response to chat history
+    with st.chat_message('assistant'):
+        st.markdown(answer)
     st.session_state.chat_history.append({"role": 'assistant', "text": answer})
 
     if len(response['citations'][0]['retrievedReferences']) != 0:
@@ -166,7 +167,6 @@ if 'query' in st.session_state and st.session_state.query_submitted:
     else:
         st.markdown(f"<span class='error'>No Context</span>", unsafe_allow_html=True)
 
-# Display chat history
 for message in st.session_state.chat_history:
     role_class = 'assistant' if message['role'] == 'assistant' else 'user'
     with st.chat_message(message['role']):
