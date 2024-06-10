@@ -47,7 +47,7 @@ st.markdown(
         background-color: #F8F9FA;
     }
     .user {
-        background-color: #DCF8C6;
+        background-color: #E8E8E8;  /* Changed background color */
     }
     .highlight {
         color: #FFDA33;
@@ -128,7 +128,7 @@ if st.session_state.selected_document:
             st.session_state.selected_workflow = []
 
 # Add a text input for queries
-questions = st.text_input('Enter your questions here...')
+questions = st.text_input('Enter your questions here...', value=st.session_state.query if st.session_state.query else "")
 if questions:
     st.session_state.query = questions
     st.session_state.query_submitted = True
