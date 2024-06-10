@@ -44,13 +44,7 @@ documents = list_s3_documents(bucket_name)
 
 st.sidebar.title("Project List")
 for doc in documents:
-    if st.sidebar.button(f"{doc['company']} - {doc['city']}"):
-        st.session_state.selected_document = doc['key']
-        st.session_state.selected_company = doc['company']
-        st.session_state.selected_city = doc['city']
-
-if 'selected_document' in st.session_state:
-    st.write(f"Selected Document: {st.session_state.selected_company} - {st.session_state.selected_city}")
+    st.sidebar.write(f"{doc['company']} - {doc['city']}")
 
 questions = st.chat_input('Enter your questions here...')
 if questions:
