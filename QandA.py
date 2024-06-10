@@ -1,7 +1,7 @@
 import boto3
 import streamlit as st
 
-st.subheader('RAG Using Knowledge Base from Amazon Bedrock', divider='rainbow')
+st.subheader('M & A Team Project Repository', divider='rainbow')
 
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
