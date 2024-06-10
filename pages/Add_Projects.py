@@ -23,7 +23,7 @@ def upload_file(file_name, renamed_file_name):
     except Exception as e:
         st.markdown(f"Error: {str(e)}")
 
-document = st.file_uploader("Upload Document", type=["pdf"])
+document = st.file_uploader("Add Project", type=["pdf"])
 
 if document:
     with open(document.name, 'wb') as f:
