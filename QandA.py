@@ -4,11 +4,13 @@ import streamlit as st
 # Add the logo image
 st.image("./Howden-Pride-Logo_PNG-2024_1.png", width=300)  # Adjust the width as needed
 
-
 st.subheader('M & A Projects Tracker', divider='rainbow')
 
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
+
+if 'chat_started' not in st.session_state:
+    st.session_state.chat_started = False
 
 for message in st.session_state.chat_history:
     with st.chat_message(message['role']):
@@ -52,22 +54,22 @@ for doc in documents:
 
 questions = st.chat_input('Enter your questions here...')
 
+# Show sample queries only if the chat has not started
+if not st.session_state.chat_started:
+    st.markdown("### Sample Queries")
+    sample_queries = [
+        "Who was the architect on Berlin project?",
+        "What technologies were used in Mumbai project?",
+        "What were the key dates for Tokyo project?"
+    ]
 
-# Sample queries
-sample_queries = [
-    "Who was the architect on Berlin project?",
-    "What technologies were used in Mumbai project?",
-    "What were the key dates for Tokyo project?"
-]
-
-st.markdown("### Sample Queries")
-for query in sample_queries:
-    if st.button(query):
-        questions = query
-        st.session_state.query_submitted = True
-
+    for query in sample_queries:
+        if st.button(query):
+            questions = query
+            st.session_state.query_submitted = True
 
 if questions:
+    st.session_state.chat_started = True  # Set chat started flag
     with st.chat_message('user'):
         st.markdown(questions)
     st.session_state.chat_history.append({"role": 'user', "text": questions})
