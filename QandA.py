@@ -1,6 +1,10 @@
 import boto3
 import streamlit as st
 
+# Add the logo image
+st.image("./Howden-Pride-Logo_PNG-2024_1.png", width=150)  # Adjust the width as needed
+
+
 st.subheader('M & A Projects Tracker', divider='rainbow')
 
 if 'chat_history' not in st.session_state:
