@@ -24,12 +24,13 @@ st.markdown(
     .stButton>button {
         width: 100%;
         border-radius: 15px;
-        background-color: #4CAF50;
+        background-color: #007BFF;
         color: white;
-        font-size: 16px;
+        font-size: 14px;
+        padding: 8px;
     }
     .stButton>button:hover {
-        background-color: #45a049;
+        background-color: #0056b3;
         color: white;
     }
     .stTextInput>div>div>input {
@@ -76,7 +77,7 @@ def list_s3_documents(bucket_name):
                 parts = key.split('_')
                 if len(parts) >= 2:
                     company_name = parts[0]
-                    city = parts[1]
+                    city = parts[1].replace('.pdf', '')
                     documents.append({'company': company_name, 'city': city, 'key': key})
     return documents
 
@@ -91,8 +92,13 @@ if 'selected_document' not in st.session_state:
 if 'selected_workflow' not in st.session_state:
     st.session_state.selected_workflow = []
 
+# Add a dropdown for projects
+project_options = [f"{doc['company']} - {doc['city']}" for doc in documents]
+selected_project = st.sidebar.selectbox("Select a Project", project_options)
+
+# Map the selected project to the document key
 for doc in documents:
-    if st.sidebar.button(f"{doc['company']} - {doc['city']}", key=doc['key']):
+    if f"{doc['company']} - {doc['city']}" == selected_project:
         st.session_state.selected_document = doc['key']
         st.session_state.selected_company = doc['company']
         st.session_state.selected_city = doc['city']
@@ -108,6 +114,11 @@ if st.session_state.selected_document:
         if st.session_state.selected_workflow:
             query = f"Show me the {', '.join(st.session_state.selected_workflow).lower()} for {st.session_state.selected_city} projects."
             st.session_state.query = query
+
+# Add a text input for queries
+questions = st.text_input('Enter your questions here...')
+if questions:
+    st.session_state.query = questions
 
 if 'query' in st.session_state:
     questions = st.session_state.query
