@@ -117,13 +117,15 @@ if st.session_state.selected_document:
             # Reset the selected document and workflow
             st.session_state.selected_document = None
             st.session_state.selected_workflow = []
+            st.session_state.query_submitted = True
 
 # Add a text input for queries
 questions = st.text_input('Enter your questions here...')
 if questions:
     st.session_state.query = questions
+    st.session_state.query_submitted = True
 
-if 'query' in st.session_state:
+if 'query' in st.session_state and st.session_state.query_submitted:
     questions = st.session_state.query
     with st.chat_message('user'):
         st.markdown(questions)
@@ -154,6 +156,9 @@ if 'query' in st.session_state:
 
     else:
         st.markdown(f"<span class='error'>No Context</span>", unsafe_allow_html=True)
+
+    # Reset query submitted state
+    st.session_state.query_submitted = False
 
 for message in st.session_state.chat_history:
     role_class = 'assistant' if message['role'] == 'assistant' else 'user'
