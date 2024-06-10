@@ -92,6 +92,12 @@ if 'selected_document' not in st.session_state:
 if 'selected_workflow' not in st.session_state:
     st.session_state.selected_workflow = []
 
+if 'query' not in st.session_state:
+    st.session_state.query = None
+
+if 'query_submitted' not in st.session_state:
+    st.session_state.query_submitted = False
+
 # Add a dropdown for projects
 project_options = [f"{doc['company']} - {doc['city']}" for doc in documents]
 selected_project = st.sidebar.selectbox("Select a Project", project_options)
@@ -115,10 +121,12 @@ if st.session_state.selected_document:
         if st.session_state.selected_workflow:
             query = f"Show me the {', '.join(st.session_state.selected_workflow).lower()} for {st.session_state.selected_city} projects."
             st.session_state.query = query
+            st.session_state.query_submitted = True
+
             # Reset the selected document and workflow
             st.session_state.selected_document = None
             st.session_state.selected_workflow = []
-            st.session_state.query_submitted = True
+            st.session_state.query_submitted = False
 
 # Add a text input for queries
 questions = st.text_input('Enter your questions here...')
