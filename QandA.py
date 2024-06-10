@@ -1,11 +1,17 @@
 import boto3
 import streamlit as st
 
+# Set the page config with a custom logo
+st.set_page_config(
+    page_title="Project Tracker",
+    page_icon="📊",
+    layout="wide",
+)
+
 # Add the logo image
-st.image("./Howden-Pride-Logo_PNG-2024_1.png", width=300)  # Adjust the width as needed
+st.image("path/to/your/logo.png", width=150)  # Adjust the width as needed
 
-
-st.subheader('M & A Projects Tracker', divider='rainbow')
+st.subheader('RAG Using Knowledge Base from Amazon Bedrock', divider='rainbow')
 
 if 'chat_history' not in st.session_state:
     st.session_state.chat_history = []
@@ -51,7 +57,28 @@ for doc in documents:
     st.sidebar.write(f"{doc['company']} - {doc['city']}")
 
 questions = st.chat_input('Enter your questions here...')
+
+# Sample queries
+sample_queries = [
+    "Who was the architect on Berlin project?",
+    "What technologies were used in Mumbai project?",
+    "What were the key dates for Tokyo project?"
+]
+
+st.markdown("### Sample Queries")
+for query in sample_queries:
+    if st.button(query):
+        questions = query
+        st.session_state.query_submitted = True
+
 if questions:
+    st.session_state.query = questions
+    st.session_state.query_submitted = True
+
+if 'query' in st.session_state and st.session_state.query_submitted:
+    questions = st.session_state.query
+    st.session_state.query_submitted = False  # Reset before processing to avoid duplication
+
     with st.chat_message('user'):
         st.markdown(questions)
     st.session_state.chat_history.append({"role": 'user', "text": questions})
@@ -73,3 +100,8 @@ if questions:
 
     else:
         st.markdown(f"<span style='color:red'>No Context</span>", unsafe_allow_html=True)
+
+for message in st.session_state.chat_history:
+    role_class = 'assistant' if message['role'] == 'assistant' else 'user'
+    with st.chat_message(message['role']):
+        st.markdown(f"<div class='stChatMessage {role_class}'>{message['text']}</div>", unsafe_allow_html=True)
