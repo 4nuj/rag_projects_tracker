@@ -137,9 +137,9 @@ if 'query' in st.session_state and st.session_state.query_submitted:
     questions = st.session_state.query
     st.session_state.query_submitted = False  # Reset before processing to avoid duplication
 
-    with st.chat_message('user'):
-        st.markdown(questions)
-    st.session_state.chat_history.append({"role": 'user', "text": questions})
+    # Append to chat history only if it hasn't been appended yet
+    if not any(message['text'] == questions for message in st.session_state.chat_history):
+        st.session_state.chat_history.append({"role": 'user', "text": questions})
 
     response = bedrock_client.retrieve_and_generate(
         input={'text': questions},
@@ -153,20 +153,20 @@ if 'query' in st.session_state and st.session_state.query_submitted:
 
     answer = response['output']['text']
 
-    with st.chat_message('assistant'):
-        st.markdown(answer)
+    # Append assistant's response to chat history
     st.session_state.chat_history.append({"role": 'assistant', "text": answer})
 
     if len(response['citations'][0]['retrievedReferences']) != 0:
-        # context = response['citations'][0]['retrievedReferences'][0]['content']['text']
+        context = response['citations'][0]['retrievedReferences'][0]['content']['text']
         doc_url = response['citations'][0]['retrievedReferences'][0]['location']['s3Location']['uri']
 
-        # st.markdown(f"<span class='highlight'>Context used: </span>{context}", unsafe_allow_html=True)
+        st.markdown(f"<span class='highlight'>Context used: </span>{context}", unsafe_allow_html=True)
         st.markdown(f"<span class='highlight'>Source Document: </span>{doc_url}", unsafe_allow_html=True)
 
     else:
         st.markdown(f"<span class='error'>No Context</span>", unsafe_allow_html=True)
 
+# Display chat history
 for message in st.session_state.chat_history:
     role_class = 'assistant' if message['role'] == 'assistant' else 'user'
     with st.chat_message(message['role']):
