@@ -160,10 +160,10 @@ if 'query' in st.session_state and st.session_state.query_submitted:
     st.session_state.chat_history.append({"role": 'assistant', "text": answer})
 
     if len(response['citations'][0]['retrievedReferences']) != 0:
-        context = response['citations'][0]['retrievedReferences'][0]['content']['text']
+        # context = response['citations'][0]['retrievedReferences'][0]['content']['text']
         doc_url = response['citations'][0]['retrievedReferences'][0]['location']['s3Location']['uri']
 
-        st.markdown(f"<span class='highlight'>Context used: </span>{context}", unsafe_allow_html=True)
+        # st.markdown(f"<span class='highlight'>Context used: </span>{context}", unsafe_allow_html=True)
         st.markdown(f"<span class='highlight'>Source Document: </span>{doc_url}", unsafe_allow_html=True)
 
     else:
