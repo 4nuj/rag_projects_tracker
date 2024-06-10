@@ -60,11 +60,11 @@ if questions:
     st.session_state.chat_history.append({"role": 'assistant', "text": answer})
 
     if len(response['citations'][0]['retrievedReferences']) != 0:
-        context = response['citations'][0]['retrievedReferences'][0]['content']['text']
+        # context = response['citations'][0]['retrievedReferences'][0]['content']['text']
         doc_url = response['citations'][0]['retrievedReferences'][0]['location']['s3Location']['uri']
 
         # Show the context and the document source for the latest Question Answer
-        st.markdown(f"<span style='color:#FFDA33'>Context used: </span>{context}", unsafe_allow_html=True)
+        # st.markdown(f"<span style='color:#FFDA33'>Context used: </span>{context}", unsafe_allow_html=True)
         st.markdown(f"<span style='color:#FFDA33'>Source Document: </span>{doc_url}", unsafe_allow_html=True)
 
     else:
