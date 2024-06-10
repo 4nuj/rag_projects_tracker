@@ -116,7 +116,7 @@ if st.session_state.selected_document:
     selected_workflow_options = st.sidebar.multiselect("Select Workflow Options", workflow_options)
     st.session_state.selected_workflow = selected_workflow_options
 
-    st.sidebar.markdown("<br>", unsafe_allow_html=True)  # Add some space before the button
+    st.sidebar.markdown("<br><br><br>", unsafe_allow_html=True)  # Add some space before the button
     if st.sidebar.button("Submit"):
         if st.session_state.selected_workflow:
             query = f"Show me the {', '.join(st.session_state.selected_workflow).lower()} for {st.session_state.selected_city} projects."
@@ -126,7 +126,6 @@ if st.session_state.selected_document:
             # Reset the selected document and workflow
             st.session_state.selected_document = None
             st.session_state.selected_workflow = []
-            st.session_state.query_submitted = False
 
 # Add a text input for queries
 questions = st.text_input('Enter your questions here...')
@@ -159,10 +158,10 @@ if 'query' in st.session_state and st.session_state.query_submitted:
     st.session_state.chat_history.append({"role": 'assistant', "text": answer})
 
     if len(response['citations'][0]['retrievedReferences']) != 0:
-        context = response['citations'][0]['retrievedReferences'][0]['content']['text']
+        # context = response['citations'][0]['retrievedReferences'][0]['content']['text']
         doc_url = response['citations'][0]['retrievedReferences'][0]['location']['s3Location']['uri']
 
-        st.markdown(f"<span class='highlight'>Context used: </span>{context}", unsafe_allow_html=True)
+        # st.markdown(f"<span class='highlight'>Context used: </span>{context}", unsafe_allow_html=True)
         st.markdown(f"<span class='highlight'>Source Document: </span>{doc_url}", unsafe_allow_html=True)
 
     else:
