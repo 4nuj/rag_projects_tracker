@@ -2,7 +2,7 @@ import boto3
 import streamlit as st
 
 # Add the logo image
-st.image("./Howden-Pride-Logo_PNG-2024_1.png", width=150)  # Adjust the width as needed
+st.image("./Howden-Pride-Logo_PNG-2024_1.png", width=300)  # Adjust the width as needed
 
 
 st.subheader('M & A Projects Tracker', divider='rainbow')
